@@ -1,6 +1,8 @@
 nav:
   home: 首页
   about: 关于
+  todoList: 待办清单
+  excellentBlogs: 其他博客
   articles: 归档
   projects: 项目
   tag: 标签
