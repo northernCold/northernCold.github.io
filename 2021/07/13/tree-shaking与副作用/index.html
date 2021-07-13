@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="什么是副作用定义：一个函数内如果修改了除本地环境之外的一些状态变量，则说明该函数有副作用。 tree-shaking失效的原因tree-shaking失效的原因：1.使用的不是ES moduels 2.代码中存在副作用。 但是使用了ES moduel以及代码中没有副作用为什么还是失效呢？ 原因是：项目中使用了babel，代码编译后产生了副作用。 如何解决需要在package.json设置sideE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tree-shaking与副作用">
+<meta property="og:url" content="http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/index.html">
+<meta property="og:site_name" content="Record Fleetings">
+<meta property="og:description" content="什么是副作用定义：一个函数内如果修改了除本地环境之外的一些状态变量，则说明该函数有副作用。 tree-shaking失效的原因tree-shaking失效的原因：1.使用的不是ES moduels 2.代码中存在副作用。 但是使用了ES moduel以及代码中没有副作用为什么还是失效呢？ 原因是：项目中使用了babel，代码编译后产生了副作用。 如何解决需要在package.json设置sideE">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-13T01:54:30.881Z">
+<meta property="article:modified_time" content="2021-07-13T01:54:30.881Z">
+<meta property="article:author" content="northernCold">
+<meta property="article:tag" content="webpack">
+<meta property="article:tag" content="tree-shaking">
+<meta property="article:tag" content="副作用">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>tree-shaking与副作用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/northernCold">项目</a></li>
+         
+          <li><a href="/todo-list">待办清单</a></li>
+         
+          <li><a href="/excellent-blogs">其他博客</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇 " href="/2021/07/13/tree-shaking/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇 " href="/2021/07/13/tsl%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&text=tree-shaking与副作用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&is_video=false&description=tree-shaking与副作用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=tree-shaking与副作用&body=Check out this article: http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&name=tree-shaking与副作用&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&t=tree-shaking与副作用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%89%AF%E4%BD%9C%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">什么是副作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tree-shaking%E5%A4%B1%E6%95%88%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">2.</span> <span class="toc-text">tree-shaking失效的原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3"><span class="toc-number">3.</span> <span class="toc-text">如何解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCE"><span class="toc-number">4.</span> <span class="toc-text">REFERENCE</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        tree-shaking与副作用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">northernCold</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-07-13T01:54:30.881Z" itemprop="datePublished">2021-07-13</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/tree-shaking/" rel="tag">tree-shaking</a>, <a class="tag-link-link" href="/tags/webpack/" rel="tag">webpack</a>, <a class="tag-link-link" href="/tags/%E5%89%AF%E4%BD%9C%E7%94%A8/" rel="tag">副作用</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="什么是副作用"><a href="#什么是副作用" class="headerlink" title="什么是副作用"></a>什么是副作用</h2><p>定义：<strong>一个函数内如果修改了除本地环境之外的一些状态变量，则说明该函数有副作用。</strong></p>
+<h2 id="tree-shaking失效的原因"><a href="#tree-shaking失效的原因" class="headerlink" title="tree-shaking失效的原因"></a>tree-shaking失效的原因</h2><p>tree-shaking失效的原因：1.使用的不是ES moduels 2.代码中存在副作用。</p>
+<p>但是使用了ES moduel以及代码中没有副作用为什么还是失效呢？</p>
+<p>原因是：项目中使用了<code>babel</code>，代码编译后产生了副作用。</p>
+<h2 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h2><p>需要在<code>package.json</code>设置<code>sideEffect</code>属性,<a target="_blank" rel="noopener" href="https://github.com/kuitos/kuitos.github.io/issues/4">Webpack 中的 sideEffects 到底该怎么用？</a>, </p>
+<h2 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h2><ol>
+<li><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)">Side effect (computer science)</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903549290151949#heading-0">你的Tree-Shaking并没什么卵用</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/kuitos/kuitos.github.io/issues/41">Webpack 中的 sideEffects 到底该怎么用？</a></p>
+<blockquote>
+<p>这篇从实践的角度描述了webpack的tree-shaking的原理</p>
+</blockquote>
+</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/northernCold">项目</a></li>
+         
+          <li><a href="/todo-list">待办清单</a></li>
+         
+          <li><a href="/excellent-blogs">其他博客</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%89%AF%E4%BD%9C%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">什么是副作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tree-shaking%E5%A4%B1%E6%95%88%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">2.</span> <span class="toc-text">tree-shaking失效的原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3"><span class="toc-number">3.</span> <span class="toc-text">如何解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCE"><span class="toc-number">4.</span> <span class="toc-text">REFERENCE</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&text=tree-shaking与副作用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&is_video=false&description=tree-shaking与副作用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=tree-shaking与副作用&body=Check out this article: http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&name=tree-shaking与副作用&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&t=tree-shaking与副作用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021
+    northernCold
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/northernCold">项目</a></li>
+         
+          <li><a href="/todo-list">待办清单</a></li>
+         
+          <li><a href="/excellent-blogs">其他博客</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

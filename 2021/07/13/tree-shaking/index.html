@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="tree-shaking定义tree-shaking是一种dead code elimination技术，主要是优化项目中的代码（消除项目中无用的代码）。  JavaScript同其他编程语言不同，JavaScript绝大部分情况是需要通过网络加载，文件的大小决定加载效率。因此消除无用的代码对js来说非常有意义。  tree-shaking vs dead code elimination为了更好">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tree-shaking">
+<meta property="og:url" content="http://example.com/2021/07/13/tree-shaking/index.html">
+<meta property="og:site_name" content="Record Fleetings">
+<meta property="og:description" content="tree-shaking定义tree-shaking是一种dead code elimination技术，主要是优化项目中的代码（消除项目中无用的代码）。  JavaScript同其他编程语言不同，JavaScript绝大部分情况是需要通过网络加载，文件的大小决定加载效率。因此消除无用的代码对js来说非常有意义。  tree-shaking vs dead code elimination为了更好">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-13T01:54:30.881Z">
+<meta property="article:modified_time" content="2021-07-13T01:54:30.881Z">
+<meta property="article:author" content="northernCold">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>tree-shaking</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/northernCold">项目</a></li>
+         
+          <li><a href="/todo-list">待办清单</a></li>
+         
+          <li><a href="/excellent-blogs">其他博客</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇 " href="/2021/07/13/babel%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇 " href="/2021/07/13/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/07/13/tree-shaking/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/07/13/tree-shaking/&text=tree-shaking"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/07/13/tree-shaking/&title=tree-shaking"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/07/13/tree-shaking/&is_video=false&description=tree-shaking"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=tree-shaking&body=Check out this article: http://example.com/2021/07/13/tree-shaking/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/07/13/tree-shaking/&title=tree-shaking"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/07/13/tree-shaking/&title=tree-shaking"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/07/13/tree-shaking/&title=tree-shaking"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/07/13/tree-shaking/&title=tree-shaking"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/07/13/tree-shaking/&name=tree-shaking&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/07/13/tree-shaking/&t=tree-shaking"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tree-shaking%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">tree-shaking定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tree-shaking-vs-dead-code-elimination"><span class="toc-number">2.</span> <span class="toc-text">tree-shaking vs dead code elimination</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tree-shaking%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">tree-shaking原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tree-shaking%E7%9A%84%E5%89%8D%E6%8F%90"><span class="toc-number">3.1.</span> <span class="toc-text">tree-shaking的前提</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88require%E4%B8%8D%E8%83%BDtree-shaking"><span class="toc-number">3.2.</span> <span class="toc-text">为什么require不能tree-shaking</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5"><span class="toc-number">4.</span> <span class="toc-text">组件按需引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCE"><span class="toc-number">5.</span> <span class="toc-text">REFERENCE</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        tree-shaking
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">northernCold</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-07-13T01:54:30.881Z" itemprop="datePublished">2021-07-13</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="tree-shaking定义"><a href="#tree-shaking定义" class="headerlink" title="tree-shaking定义"></a>tree-shaking定义</h2><p>tree-shaking是一种<code>dead code elimination</code>技术，主要是优化项目中的代码（消除项目中无用的代码）。</p>
+<blockquote>
+<p>JavaScript同其他编程语言不同，JavaScript绝大部分情况是需要通过网络加载，文件的大小决定加载效率。因此消除无用的代码对js来说非常有意义。</p>
+</blockquote>
+<h2 id="tree-shaking-vs-dead-code-elimination"><a href="#tree-shaking-vs-dead-code-elimination" class="headerlink" title="tree-shaking vs dead code elimination"></a>tree-shaking vs dead code elimination</h2><p>为了更好地理解tree-shaking，与传统<code>dead code elimination</code>的区别：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>目的</th>
+<th>原理</th>
+<th>webpack如何做到的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dead code elimination</td>
+<td>消除项目中的不影响结果的代码<code>dead code</code>（包含：1.永远执行不到的代码；2.代码只影响死变量<code>只读不写</code>）<sub>[1]</sub></td>
+<td>标记<code>dead code</code>，然后消除</td>
+<td><code>TerserWebpackPlugin</code>之类的代码压缩插件完成的</td>
+</tr>
+<tr>
+<td>tree-shaking</td>
+<td>消除项目中没有用到的代码</td>
+<td>从入口开始，只包含可执行的函数，剩下的都是没有用到的代码。又称为 <code>live code inclusion</code><sub>[2]</sub></td>
+<td>webpack分析代码，标记没有用到到代码，也是由TerserWebpackPlugin之类的代码压缩插件完成的</td>
+</tr>
+</tbody></table>
+<h2 id="tree-shaking原理"><a href="#tree-shaking原理" class="headerlink" title="tree-shaking原理"></a>tree-shaking原理</h2><h3 id="tree-shaking的前提"><a href="#tree-shaking的前提" class="headerlink" title="tree-shaking的前提"></a>tree-shaking的前提</h3><p>tree-shaking的的前提是代码使用的是<code>ESModule</code><sub>[3]</sub></p>
+<ol>
+<li>只能作为模块顶层的语句出现</li>
+<li>import的模块名只能是字符串常量</li>
+<li>import binding是imutable</li>
+</ol>
+<p>使其静态分析代码成为可能。ES的依赖关系是确定的，与运行时的状态无关。</p>
+<blockquote>
+<p>静态分析：不执行代码，从字面量上对代码进行读取分析</p>
+</blockquote>
+<p>webpack中在编译代码的过程中，会标记未使用到的代码。然后代码压缩的时候，会删除标记的代码。<sub>[4]</sub></p>
+<h3 id="为什么require不能tree-shaking"><a href="#为什么require不能tree-shaking" class="headerlink" title="为什么require不能tree-shaking"></a>为什么require不能tree-shaking</h3><p>[[commonjs与ESMoule不同之处]]: commonjs里模块的依赖关系是动态的，在代码执行的时候才能知道。导致无法静态分析。</p>
+<h2 id="组件按需引入"><a href="#组件按需引入" class="headerlink" title="组件按需引入"></a>组件按需引入</h2><p>[<a href="%E7%BB%84%E4%BB%B6%E5%BA%93%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5" title="组件库如何做到按需引入">组件库如何做到按需引入</a>]</p>
+<h2 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h2><ol>
+<li><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Dead_code_elimination">Dead code elimination</a></p>
+<blockquote>
+<p>tree shaking的定义。tree-shaking 和 dead code elimination 不是同一个东西</p>
+</blockquote>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Tree_shaking">Tree shaking</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/32554436?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io">Tree-Shaking性能优化实践 - 原理篇</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6866747701908733966">深入 Webpack 的 Tree Shaking</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/kuitos/kuitos.github.io/issues/41">Webpack 中的 sideEffects 到底该怎么用？</a></p>
+<blockquote>
+<p>这篇从实践的角度描述了webpack的tree-shaking的原理</p>
+</blockquote>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903549290151949#heading-0">你的Tree-Shaking并没什么卵用</a></p>
+</li>
+</ol>
+<blockquote>
+<p>这篇清晰讲解了为什么像elementUI之类的一些组件库，不能直接利用webpack的tree-shaking实现按需引入。而是引用第三方babel插件<a target="_blank" rel="noopener" href="https://github.com/ElementUI/babel-plugin-component">babel-plugin-component</a>才能实现其效果。</p>
+</blockquote>
+<ol start="7">
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904138073980942#heading-9">从 Babel 到组件按需引入原理</a></li>
+</ol>
+<blockquote>
+<p>这篇主要babel插件实现按需引入的原理</p>
+</blockquote>
+<ol start="8">
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000038962700">小红书面试官：介绍一下 tree shaking 及其工作原理</a></li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/northernCold">项目</a></li>
+         
+          <li><a href="/todo-list">待办清单</a></li>
+         
+          <li><a href="/excellent-blogs">其他博客</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tree-shaking%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">tree-shaking定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tree-shaking-vs-dead-code-elimination"><span class="toc-number">2.</span> <span class="toc-text">tree-shaking vs dead code elimination</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tree-shaking%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">tree-shaking原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tree-shaking%E7%9A%84%E5%89%8D%E6%8F%90"><span class="toc-number">3.1.</span> <span class="toc-text">tree-shaking的前提</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88require%E4%B8%8D%E8%83%BDtree-shaking"><span class="toc-number">3.2.</span> <span class="toc-text">为什么require不能tree-shaking</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5"><span class="toc-number">4.</span> <span class="toc-text">组件按需引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCE"><span class="toc-number">5.</span> <span class="toc-text">REFERENCE</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/07/13/tree-shaking/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/07/13/tree-shaking/&text=tree-shaking"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/07/13/tree-shaking/&title=tree-shaking"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/07/13/tree-shaking/&is_video=false&description=tree-shaking"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=tree-shaking&body=Check out this article: http://example.com/2021/07/13/tree-shaking/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/07/13/tree-shaking/&title=tree-shaking"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/07/13/tree-shaking/&title=tree-shaking"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/07/13/tree-shaking/&title=tree-shaking"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/07/13/tree-shaking/&title=tree-shaking"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/07/13/tree-shaking/&name=tree-shaking&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/07/13/tree-shaking/&t=tree-shaking"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021
+    northernCold
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/northernCold">项目</a></li>
+         
+          <li><a href="/todo-list">待办清单</a></li>
+         
+          <li><a href="/excellent-blogs">其他博客</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
