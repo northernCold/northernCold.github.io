@@ -1,4 +1,6 @@
 sudo: false
+install:
+  - yarn
 language: node_js
 node_js:
   - 14.4.0 # use nodejs v10 LTS
