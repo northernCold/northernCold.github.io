@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="根据Wiki对JSONP的定义：通过加载script标签来请求数据的JavaScript技术。这样做的能够是绕过浏览器同源策略的限制。  假设你在example.com域名下，想要向example.net域名发送请求。要实现这个想法，首先需要解决浏览器跨域。 众多跨域方法中，其中一种就是JSONP，利用script标签没有跨域的限制，来达解决跨域效果。 通过script标签到达XHR类似的效果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="什么是JSONP">
+<meta property="og:url" content="http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/index.html">
+<meta property="og:site_name" content="Record Fleetings">
+<meta property="og:description" content="根据Wiki对JSONP的定义：通过加载script标签来请求数据的JavaScript技术。这样做的能够是绕过浏览器同源策略的限制。  假设你在example.com域名下，想要向example.net域名发送请求。要实现这个想法，首先需要解决浏览器跨域。 众多跨域方法中，其中一种就是JSONP，利用script标签没有跨域的限制，来达解决跨域效果。 通过script标签到达XHR类似的效果">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-09T18:18:43.000Z">
+<meta property="article:modified_time" content="2021-09-03T10:01:16.740Z">
+<meta property="article:author" content="northernCold">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>什么是JSONP</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/northernCold">项目</a></li>
+         
+          <li><a href="/todo-list">待办清单</a></li>
+         
+          <li><a href="/excellent-blogs">其他博客</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇 " href="/2021/09/03/%E8%AE%B0%E4%B8%80%E6%AC%A1jquery%E9%A1%B9%E7%9B%AE%E5%B7%A5%E7%A8%8B%E5%8C%96/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇 " href="/2021/07/11/%E7%BB%84%E4%BB%B6%E5%BA%93%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&text=什么是JSONP"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&title=什么是JSONP"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&is_video=false&description=什么是JSONP"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=什么是JSONP&body=Check out this article: http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&title=什么是JSONP"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&title=什么是JSONP"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&title=什么是JSONP"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&title=什么是JSONP"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&name=什么是JSONP&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&t=什么是JSONP"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCE"><span class="toc-number">2.</span> <span class="toc-text">REFERENCE</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        什么是JSONP
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">northernCold</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-08-09T18:18:43.000Z" itemprop="datePublished">2021-08-09</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>根据Wiki对<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/JSONP">JSONP</a>的定义：通过加载script标签来请求数据的JavaScript技术。这样做的能够是绕过浏览器同源策略的限制。</p>
+</blockquote>
+<p>假设你在<code>example.com</code>域名下，想要向<code>example.net</code>域名发送请求。要实现这个想法，首先需要解决<strong>浏览器跨域</strong>。</p>
+<p>众多跨域方法中，其中一种就是<strong>JSONP</strong>，利用script标签没有跨域的限制，来达解决跨域效果。</p>
+<p>通过script标签到达XHR类似的效果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">script = <span class="built_in">document</span>.createElement(<span class="string">&#x27;script&#x27;</span>);</span><br><span class="line">script.type = <span class="string">&#x27;text/javascript&#x27;</span>;</span><br><span class="line">script.src = <span class="string">&#x27;http://example.com/some-data&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>数据加载成功后，得到</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">[<span class="string">&#x27;some string 1&#x27;</span>, <span class="string">&#x27;some data&#x27;</span>, <span class="string">&#x27;whatever data&#x27;</span>]</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>但是这样做的有些小问题，在script标签中无法使用该数据。<code>JSONP</code>的做法是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">script = <span class="built_in">document</span>.createElement(<span class="string">&#x27;script&#x27;</span>);</span><br><span class="line">script.type = <span class="string">&#x27;text/javascript&#x27;</span>;</span><br><span class="line">script.src = <span class="string">&#x27;http://example.com/some-data?callback=myCallback&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>然后服务器应该这么处理：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&quot;http&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> querystring = <span class="built_in">require</span>(<span class="string">&quot;querystring&quot;</span>);</span><br><span class="line"></span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> params = querystring.parse(req.url.split(<span class="string">&quot;?&quot;</span>)[<span class="number">1</span>]);</span><br><span class="line">  <span class="built_in">console</span>.log(params)</span><br><span class="line">  res.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">    <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json;charset=UTF-8&quot;</span></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// 在页面打印</span></span><br><span class="line">  res.write(<span class="string">`<span class="subst">$&#123;params.callback&#125;</span>([&#x27;some string 1&#x27;, &#x27;some data&#x27;, &#x27;whatever data&#x27;])`</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 结束响应</span></span><br><span class="line">  res.end();</span><br><span class="line">&#125;).listen(<span class="number">3000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>返回格式：[<code>callback</code>的参数值](数据)，加载完后携带数据执行myCallback函数，我们只需要声明myCallback的函数，就能得到数据。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">myCallback([<span class="string">&#x27;some string 1&#x27;</span>, <span class="string">&#x27;some data&#x27;</span>, <span class="string">&#x27;whatever data&#x27;</span>]);</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>JSONP实际上是一种跨域的hack，有一些缺点：</p>
+<ul>
+<li>只支持get方法</li>
+<li>因为它是由一个简单的脚本标记触发的GET请求，所以我们不会得到有用的错误或进度信息</li>
+</ul>
+<h2 id="REFERENCE"><a href="#REFERENCE" class="headerlink" title="REFERENCE"></a>REFERENCE</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/JSONP">JSONP</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/a/2067584/14806308">What is JSONP, and why was it created?</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/northernCold">项目</a></li>
+         
+          <li><a href="/todo-list">待办清单</a></li>
+         
+          <li><a href="/excellent-blogs">其他博客</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REFERENCE"><span class="toc-number">2.</span> <span class="toc-text">REFERENCE</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&text=什么是JSONP"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&title=什么是JSONP"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&is_video=false&description=什么是JSONP"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=什么是JSONP&body=Check out this article: http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&title=什么是JSONP"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&title=什么是JSONP"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&title=什么是JSONP"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&title=什么是JSONP"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&name=什么是JSONP&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/08/09/%E4%BB%80%E4%B9%88%E6%98%AFJSONP/&t=什么是JSONP"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021
+    northernCold
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/northernCold">项目</a></li>
+         
+          <li><a href="/todo-list">待办清单</a></li>
+         
+          <li><a href="/excellent-blogs">其他博客</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
