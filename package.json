@@ -23,7 +23,7 @@
     "hexo-renderer-stylus": "^2.0.0",
     "hexo-server": "^2.0.0",
     "hexo-theme-landscape": "^0.0.3",
-    "inquirer": "^8.1.2"
+    "inquirer": "^8.1.5"
   },
   "devDependencies": {
     "chalk": "^4.1.1",
