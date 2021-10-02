@@ -15,3 +15,12 @@
 - [ ] 精读[HTTP Caching](https://developers.google.com/web/fundamentals/performance/get-started/httpcaching-6#enabling_caching)
 - [ ] 总结element-ui的markdown生成demo的方案。
 - [ ] 尝试利用vite的plugin，实现element-ui的markdown生成demo的方案
+- [ ] 按照规范总结event-loop https://zhuanlan.zhihu.com/p/142742003
+- [ ] Vue双向绑定、响应式原理
+- [ ] 了解SVG动画 https://segmentfault.com/a/1190000038486133
+- [ ] 了解vue是如何发布的 https://zhuanlan.zhihu.com/p/405717808
+- [ ] 总结svg sprite https://www.zhangxinxu.com/wordpress/2014/07/introduce-svg-sprite-technology/
+- [ ] 了解.d.ts文件的作用
+- [ ] 学习源码 https://github.com/mhutchie/vscode-git-graph/blob/develop/src/dataSource.ts
+- [ ] 学习TypeScript的高级用法 https://juejin.cn/post/6926794697553739784#heading-27
+- [ ] 总结webpack的import()实现原理
