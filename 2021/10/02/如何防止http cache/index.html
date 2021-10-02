@@ -9,12 +9,12 @@
     <meta name="description" content="以下内容是在了解浏览器缓存机制的前提下展开说明  线上部署项目后，经常会遇到各种各样的问题。其中一些跟浏览器缓存相关，明明文件更新了而浏览器却还是加载的不是预期文件，清除缓存后才能正常。答案很明显，导致这种情况是因为浏览器缓存。服务器上文件更新后，浏览器还是访问缓存的内容。这种情况的缓存显然不是我们想要，那改如何避免呢？ 防止浏览器错误的缓存需要关注三个方面的内容：  强制缓存 协商缓存 浏览器">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何防止浏览器缓存">
-<meta property="og:url" content="http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/index.html">
+<meta property="og:url" content="http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/index.html">
 <meta property="og:site_name" content="Record Fleetings">
 <meta property="og:description" content="以下内容是在了解浏览器缓存机制的前提下展开说明  线上部署项目后，经常会遇到各种各样的问题。其中一些跟浏览器缓存相关，明明文件更新了而浏览器却还是加载的不是预期文件，清除缓存后才能正常。答案很明显，导致这种情况是因为浏览器缓存。服务器上文件更新后，浏览器还是访问缓存的内容。这种情况的缓存显然不是我们想要，那改如何避免呢？ 防止浏览器错误的缓存需要关注三个方面的内容：  强制缓存 协商缓存 浏览器">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-09-03T10:01:16.740Z">
-<meta property="article:modified_time" content="2021-09-03T10:01:16.740Z">
+<meta property="article:published_time" content="2021-10-02T00:52:58.759Z">
+<meta property="article:modified_time" content="2021-10-02T00:52:58.759Z">
 <meta property="article:author" content="northernCold">
 <meta property="article:tag" content="缓存">
 <meta property="article:tag" content="浏览器">
@@ -76,10 +76,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="上一篇 " href="/2021/09/03/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8-xss/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="上一篇 " href="/2021/10/02/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8-xss/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" aria-label="下一篇 " href="/2021/09/03/%E8%AE%B0%E4%B8%80%E6%AC%A1jquery%E9%A1%B9%E7%9B%AE%E5%B7%A5%E7%A8%8B%E5%8C%96/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="下一篇 " href="/2021/10/02/%E8%AE%B0%E4%B8%80%E6%AC%A1jquery%E9%A1%B9%E7%9B%AE%E5%B7%A5%E7%A8%8B%E5%8C%96/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -92,17 +92,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&text=如何防止浏览器缓存"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&is_video=false&description=如何防止浏览器缓存"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=如何防止浏览器缓存&body=Check out this article: http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&name=如何防止浏览器缓存&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&t=如何防止浏览器缓存"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&text=如何防止浏览器缓存"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&is_video=false&description=如何防止浏览器缓存"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=如何防止浏览器缓存&body=Check out this article: http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&name=如何防止浏览器缓存&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&t=如何防止浏览器缓存"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -131,7 +131,7 @@
       
     <div class="postdate">
       
-        <time datetime="2021-09-03T10:01:16.740Z" itemprop="datePublished">2021-09-03</time>
+        <time datetime="2021-10-02T00:52:58.759Z" itemprop="datePublished">2021-10-02</time>
         
       
     </div>
@@ -248,17 +248,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&text=如何防止浏览器缓存"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&is_video=false&description=如何防止浏览器缓存"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=如何防止浏览器缓存&body=Check out this article: http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&name=如何防止浏览器缓存&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/09/03/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&t=如何防止浏览器缓存"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&text=如何防止浏览器缓存"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&is_video=false&description=如何防止浏览器缓存"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=如何防止浏览器缓存&body=Check out this article: http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&title=如何防止浏览器缓存"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&name=如何防止浏览器缓存&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/10/02/%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2http%20cache/&t=如何防止浏览器缓存"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

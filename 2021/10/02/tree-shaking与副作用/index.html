@@ -9,12 +9,12 @@
     <meta name="description" content="什么是副作用定义：一个函数内如果修改了除本地环境之外的一些状态变量，则说明该函数有副作用。 tree-shaking失效的原因tree-shaking失效的原因：1.使用的不是ES moduels 2.代码中存在副作用。 但是使用了ES moduel以及代码中没有副作用为什么还是失效呢？ 原因是：项目中使用了babel，代码编译后产生了副作用。 如何解决需要在package.json设置sideE">
 <meta property="og:type" content="article">
 <meta property="og:title" content="tree-shaking与副作用">
-<meta property="og:url" content="http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/index.html">
+<meta property="og:url" content="http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/index.html">
 <meta property="og:site_name" content="Record Fleetings">
 <meta property="og:description" content="什么是副作用定义：一个函数内如果修改了除本地环境之外的一些状态变量，则说明该函数有副作用。 tree-shaking失效的原因tree-shaking失效的原因：1.使用的不是ES moduels 2.代码中存在副作用。 但是使用了ES moduel以及代码中没有副作用为什么还是失效呢？ 原因是：项目中使用了babel，代码编译后产生了副作用。 如何解决需要在package.json设置sideE">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-09-03T10:01:16.740Z">
-<meta property="article:modified_time" content="2021-09-03T10:01:16.740Z">
+<meta property="article:published_time" content="2021-10-02T00:52:58.759Z">
+<meta property="article:modified_time" content="2021-10-02T00:52:58.759Z">
 <meta property="article:author" content="northernCold">
 <meta property="article:tag" content="webpack">
 <meta property="article:tag" content="tree-shaking">
@@ -77,10 +77,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="上一篇 " href="/2021/09/03/tree-shaking/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="上一篇 " href="/2021/10/02/tree-shaking/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" aria-label="下一篇 " href="/2021/09/03/tsl%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="下一篇 " href="/2021/10/02/tsl%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部 " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" aria-label="分享文章 " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -93,17 +93,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&text=tree-shaking与副作用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&is_video=false&description=tree-shaking与副作用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=tree-shaking与副作用&body=Check out this article: http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&name=tree-shaking与副作用&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&t=tree-shaking与副作用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&text=tree-shaking与副作用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&is_video=false&description=tree-shaking与副作用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=tree-shaking与副作用&body=Check out this article: http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&name=tree-shaking与副作用&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&t=tree-shaking与副作用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -132,7 +132,7 @@
       
     <div class="postdate">
       
-        <time datetime="2021-09-03T10:01:16.740Z" itemprop="datePublished">2021-09-03</time>
+        <time datetime="2021-10-02T00:52:58.759Z" itemprop="datePublished">2021-10-02</time>
         
       
     </div>
@@ -198,17 +198,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&text=tree-shaking与副作用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&is_video=false&description=tree-shaking与副作用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=tree-shaking与副作用&body=Check out this article: http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&name=tree-shaking与副作用&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/09/03/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&t=tree-shaking与副作用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&text=tree-shaking与副作用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&is_video=false&description=tree-shaking与副作用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=tree-shaking与副作用&body=Check out this article: http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&title=tree-shaking与副作用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&name=tree-shaking与副作用&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/10/02/tree-shaking%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8/&t=tree-shaking与副作用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
